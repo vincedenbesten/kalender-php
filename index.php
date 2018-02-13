@@ -1,0 +1,38 @@
+<?php
+$servername = "localhost";
+$username = "calendar_user";
+$password = "123";
+$dbname = "calendar";
+$month = array("");
+
+
+//----------------------------------------------------------------------------//
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+//----------------------------------------------------------------------------//
+
+$sql = "SELECT person, day, month, year, id FROM birthdays ORDER BY month ASC;";
+$result = $conn->query($sql);
+?>
+
+<!doctype html>
+<html>
+	<head>
+		<title>Verjaardagskalender</title>
+    <link href="main.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+    <p><?php if ($result->num_rows > 0) {
+      while($row = $result->fetch_assoc()) {
+        echo $row["id"]. $row["person"]. " ". $row["year"]. "-". $row["day"]. "-". $row["month"]. "<br>";
+      }
+    }
+    ?></p>
+	</body>
+</html>
