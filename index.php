@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "calendar_user";
 $password = "123";
 $dbname = "calendar";
-$month = array("");
+$month = array('January',	'February',	'March',	'April',	'May',	'June',	'July',	'August',	'September',	'October',	'November',	'December');
 
 
 //----------------------------------------------------------------------------//
@@ -16,8 +16,14 @@ if ($conn->connect_error) {
 }
 //----------------------------------------------------------------------------//
 
-$sql = "SELECT person, day, month, year, id FROM birthdays ORDER BY month ASC;";
+$sql = "SELECT person, day, month, year, id FROM birthdays ORDER BY month, day ASC;";
 $result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+    echo $row["id"]. $row["person"]. " ". $row["year"]. "-". $row["day"]. "-". $row["month"]. "<br>";
+  }
+}
 ?>
 
 <!doctype html>
