@@ -19,6 +19,8 @@ if ($conn->connect_error) {
 $sql = "SELECT person, day, month, year, id FROM birthdays ORDER BY month, day ASC;";
 $result = $conn->query($sql);
 
+var_dump($result);
+
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     echo $row["id"]. $row["person"]. " ". $row["year"]. "-". $row["day"]. "-". $row["month"]. "<br>";
