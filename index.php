@@ -1,31 +1,29 @@
 <?php
-$servername = "localhost";
-$username = "calendar_user";
-$password = "123";
-$dbname = "calendar";
-$month = array('January',	'February',	'March',	'April',	'May',	'June',	'July',	'August',	'September',	'October',	'November',	'December');
+include 'connect.php';
 
+$sql = "SELECT * FROM birthdays ORDER BY month, day, year ASC;";
 
-//----------------------------------------------------------------------------//
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-//----------------------------------------------------------------------------//
-
-$sql = "SELECT person, day, month, year, id FROM birthdays ORDER BY month, day ASC;";
 $result = $conn->query($sql);
-
-var_dump($result);
 
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
-    echo $row["id"]. $row["person"]. " ". $row["year"]. "-". $row["day"]. "-". $row["month"]. "<br>";
+    $monthnames = array('January',	'February',	'March',	'April',	'May',	'June',	'July',	'August',	'September',	'October',	'November',	'December');
+    $month = $monthnames[$row["month"]];
+
+    if ($currentmonth != $row["month"]) {
+      echo "<h1>".$month. "</h1>" ;
+    }
+    if ($currentday != $row["day"]) {
+      echo "<h2>". $row["day"]. "</h2>";
+    }
+    echo "<p><a href=\"pages/edit.php?id=". $row['id']. "\"". ">". $row["person"]. " (". $row["year"]. ")</a><a href=\"pages/delete.php?id=". $row['id']. "\">x</a></p>";
+    $currentmonth = $row["month"];
+    $currentday = $row["day"];
   }
+  echo "<p><a href=\"pages/create.php\">+ Toevoegen</a></p>";
 }
+
+$sql = "UPDATE birthdays SET person = henk WHERE id = 21 ";
 ?>
 
 <!doctype html>
@@ -36,11 +34,5 @@ if ($result->num_rows > 0) {
 	</head>
 
 	<body>
-    <p><?php if ($result->num_rows > 0) {
-      while($row = $result->fetch_assoc()) {
-        echo $row["id"]. $row["person"]. " ". $row["year"]. "-". $row["day"]. "-". $row["month"]. "<br>";
-      }
-    }
-    ?></p>
 	</body>
 </html>
