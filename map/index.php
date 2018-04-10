@@ -22,8 +22,6 @@ if ($result->num_rows > 0) {
   }
   echo "<p><a href=\"pages/create.php\">+ Toevoegen</a></p>";
 }
-
-$sql = "UPDATE birthdays SET person = henk WHERE id = 21 ";
 ?>
 
 <!doctype html>
