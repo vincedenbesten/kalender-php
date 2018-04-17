@@ -2,20 +2,25 @@
 require(ROOT . "Model/kalenderModel.php");
 
 function index(){
-  render("home/index", array(
-		'birthdays' => getAllBirthdays()
-	));
+  render("home/index", array('birthdays' => getAllBirthdays()));
 }
 
 function delete()
 {
 	deletePerson($_GET);
-	index();
+	header("Location: ".URL.index());
 }
 
 function edit()
 {
+  $data = $_GET;
+  render("home/edit", ['data' => dataToEdit($data)]);
+}
 
+function saveEdit()
+{
+ $personData = array($_POST['persoon'],$_POST['dag'],$_POST['maannd'],$_POST['jaar'],$_GET['id']);
+ Update($personData);
 }
 
 function addPerson(){
@@ -26,7 +31,7 @@ function create()
 {
   if ((isset($_POST['persoon'])) and (isset($_POST['maand'])) and (isset($_POST['dag'])) and (isset($_POST['jaar']))) {
     createquery($_POST);
-    index();
+    header("Location: ".URL.index());
    }
 }
 ?>

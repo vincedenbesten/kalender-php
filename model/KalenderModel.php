@@ -26,6 +26,32 @@ function deletePerson($GET)
   $query->execute();
 }
 
+function dataToEdit($data)
+{
+	$db = openDatabaseConnection();
+
+  $sql = "SELECT * FROM birthdays WHERE id =:id;";
+  $query = $db->prepare($sql);
+  $query->bindParam(':id',$data['id']);
+  $query->execute();
+	$result =  $query->setFetchMode(PDO::FETCH_ASSOC);
+	return $query->fetchAll();
+}
+
+function Update($POST)
+{
+	$db = openDatabaseConnection();
+	$stmt = $conn->prepare("UPDATE birthdays SET person =:person , day =:day, month =:month, year =:year WHERE id =:id ;");
+	$stmt->bind_param(":person",$POST[0]);
+	$stmt->bind_param(":day",$POST[1]);
+	$stmt->bind_param(":month",$POST[2]);
+	$stmt->bind_param(":year",$POST[3]);
+  $stmt->bind_param(":id",$POST[4]);
+  $stmt->execute();
+  $stmt->close();
+  $conn->close();
+}
+
 function createquery($POST){
 	$db = openDatabaseConnection();
 
