@@ -17,10 +17,11 @@ function edit()
   render("home/edit", ['data' => dataToEdit($data)]);
 }
 
-function saveEdit()
+function editSave()
 {
  $personData = array($_POST['persoon'],$_POST['dag'],$_POST['maannd'],$_POST['jaar'],$_GET['id']);
  Update($personData);
+ header("Location: ".URL.index());
 }
 
 function addPerson(){

@@ -38,18 +38,16 @@ function dataToEdit($data)
 	return $query->fetchAll();
 }
 
-function Update($POST)
+function Update($data)
 {
 	$db = openDatabaseConnection();
-	$stmt = $conn->prepare("UPDATE birthdays SET person =:person , day =:day, month =:month, year =:year WHERE id =:id ;");
-	$stmt->bind_param(":person",$POST[0]);
-	$stmt->bind_param(":day",$POST[1]);
-	$stmt->bind_param(":month",$POST[2]);
-	$stmt->bind_param(":year",$POST[3]);
-  $stmt->bind_param(":id",$POST[4]);
-  $stmt->execute();
-  $stmt->close();
-  $conn->close();
+	$query = $db->prepare("UPDATE birthdays SET person =:person , day =:day, month =:month, year =:year WHERE id =:id ;");
+	$query->bindParam(':person',$data[0]);
+	$query->bindParam(':day',$data[1]);
+	$query->bindParam(':month',$data[2]);
+	$query->bindParam(':year',$data[3]);
+  $query->bindParam(':id',$data[4]);
+  $query->execute();
 }
 
 function createquery($POST){
